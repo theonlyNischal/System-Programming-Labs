@@ -26,6 +26,8 @@ typedef struct {
 
 10 } Elf_Symbol;
 
+struct 
+
 
 #include <stdio.h>
 #include <conio.h>
