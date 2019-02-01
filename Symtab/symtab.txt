@@ -1,0 +1,36 @@
+
+Symbol Table - Data Structure, Not only variable name but their data types, procedures/functions defined.
+		- Used in semanti
+		Data Structure - hold information about variables, is the variable defined and used in my program or it has not been defined but our program is using.
+
+Write a procedure Enter-Symbol to construct a symbol table using a binary tree as the data structure for storage. Construct your tree so that an inorder traversal results in an alphabetized listing of the symbols. In addition to the symbols themselves, a hexadecimal value and a Boolean flag will be stored. Therefore each node in the tree will contain the following fields:
+
+		Symbol (maximum of 6 characters)
+		Value (hexadecimal number)
+		Left pointer
+		Right pointer
+		Boolean flag
+
+	Your procedure will receive as input a symbol and its hexadecimal and Boolean values. It will check that the symbol begins with an alphabetic character and that it has not been previously entered in the tree. A symbol that begins with a non-alphabetic character or that has already been entered should be rejected and cause an error message to be printed: "illegal symbol" or "doubly defined" respectively. A symbol with a length of more than 6 characters should be truncated.
+
+
+// Structure Sample
+typedef struct {
+	int symbol; /* string table offset */
+	int value; /* section offset, or VM address */
+	int size; /* object size in bytes */
+	char type:4, /* data, func, section, or src file name (4 bits) */
+	binding:4; /* local or global (4 bits) */
+	char reserved; /* unused */
+	char section; /* section header index, ABS, UNDEF, */
+
+10 } Elf_Symbol;
+
+
+#include <stdio.h>
+#include <conio.h>
+
+int main(){
+
+
+} // endMain
