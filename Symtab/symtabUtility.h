@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-
+#define SYMBOL_SIZE_LIMIT 6
 
 
 struct node{
@@ -25,44 +25,8 @@ struct node *iter_next(struct node *node, char symbol[]){
         return left?left:iter_next(node->right, symbol);
     }
 
-    /*
-    if (node == NULL)
-    return NULL;
-else if (node->number == key)
-    return node;
-else {
-    data *left = search(node->left, key);
-    return left? left: search(node->right, key);
-}*/
+
 }
-
-
-/*struct node *iter_next(struct node* node){
-    struct node* rightResult = NULL;
-
-    if(node==NULL)
-        return NULL;
-
-    while(node->left && !(node->left->visited))
-        node = node->left;
-
-    if(!(node->visited))
-        return node;
-
-    //move right
-    rightResult = iter_next(node->right);
-
-    if(rightResult)
-        return rightResult;
-
-    while(node && node->visited)
-        node = node->parent;
-
-    return node;
-}*/
-
-
-
 
 
 
@@ -101,14 +65,11 @@ void searchTree(struct node *node, char symbol[]){
 
     if (SymbolNotExist(node, symbol)){
 
-        printf("Symbol %s: Doesn't exist.\n", symbol);
+        printf("Symbol %s: Doesn't exist.\n\n", symbol);
     }else{
         printf("Symbol %s:  Found.\n");
-            //while(strcmp(node->symbol, symbol) != 0){
-              //  node = iter_next(node, symbol);
-            //}
             node = iter_next(node, symbol);
-            printf("%s \t  %X \t  %s\n", node->symbol, node->value, node->flag ? "true":"false");
+            printf("%s \t  %X \t  %s\n\n", node->symbol, node->value, node->flag ? "true":"false");
 
 
     }
@@ -116,7 +77,7 @@ void searchTree(struct node *node, char symbol[]){
 
 struct node *enterSymbol(struct node *node, char symbol[], unsigned char value, bool flag){
 
-    if(isalpha(symbol[0]) && SymbolNotExist(node, symbol)){
+    if(isalpha(symbol[0]) && SymbolNotExist(node, symbol) && strlen(symbol) <= 6){
 
         if(node == NULL){
             return newNode(symbol, value, flag);
@@ -129,10 +90,12 @@ struct node *enterSymbol(struct node *node, char symbol[], unsigned char value, 
             }
         } else {// IsAlpha
                 printf("Cannot Insert %s.\n", symbol);
-                if(isalpha(symbol[0])){
-                    printf("%s already exist.\n", symbol);
-                }else{
-                    printf("%s is not a Alphabetic Character.\n", symbol);
+                if(isalpha(symbol[0]) == 0){
+                    printf("%s is not a Alphabetic Character.\n\n", symbol);
+                }else if (strlen(symbol) > 6){
+                    printf("%s exceeds the size limit of 6.\n\n");
+                }else if (!SymbolNotExist(node, symbol)){
+                    printf("%s already exists.\n\n");
                 }
             }
 

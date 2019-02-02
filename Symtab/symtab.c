@@ -19,17 +19,21 @@ int main(){
 	enterSymbol(root, "MELLON", 0x80, true);
 	enterSymbol(root, "APPLE", 0x5A, true);
 	enterSymbol(root, "APPLE", 0x65, false);
+	enterSymbol(root, "EGGPLANT", 0x9C, false);
 
 
 	// print inoder traversal of the BST
 	    printf("\n\nSymbol\t Value\t Flag\n");
 	    printf("-------------------------\n");
         printTable(root);
-        printf("-------------------------\n");
+        printf("-------------------------\n\n");
+
+        printf("******Searching for CARROT, APPLE, MANGO, MELLON******\n\n");
 
         searchTree(root, "CARROT");
         searchTree(root, "APPLE");
         searchTree(root, "MANGO");
+        searchTree(root, "MELLON");
 
 
 
