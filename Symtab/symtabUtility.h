@@ -2,69 +2,135 @@
 #include <string.h>
 
 struct node{
-    char symbol[6];
-    char value;
+    char symbol[7];
+    unsigned char value;
     bool flag;
     struct node *left;
     struct node *right;
+
+    // for iteration
+    struct node *parent;
+    int visited;
 };
+
+struct node *iter_next(struct node *node){
+    if (node == NULL){ return NULL;}
+    iter_next(node->left);
+    iter_next(node->right);
+}
+
+/*struct node *iter_next(struct node* node){
+    struct node* rightResult = NULL;
+
+    if(node==NULL)
+        return NULL;
+
+    while(node->left && !(node->left->visited))
+        node = node->left;
+
+    if(!(node->visited))
+        return node;
+
+    //move right
+    rightResult = iter_next(node->right);
+
+    if(rightResult)
+        return rightResult;
+
+    while(node && node->visited)
+        node = node->parent;
+
+    return node;
+}*/
+
+
+
+
 
 
 /* newNode() allocates a new node with the given data and NULL left and
    right pointers. */
 struct node *newNode(char symbol[], unsigned char value, bool flag)
 {
-    printf("newNode() is called.\n");
 
   // Allocate memory for new node
   struct node *temp = (struct node *)malloc(sizeof(struct node));
 
-    printf("Memory allocated.\n");
   // Assign data to this node
   strcpy(temp->symbol, symbol);
-  printf("Symbol assigned.\n");
   //strcpy(temp->value, value);
   temp->value = value;
-  printf("Value Copied.\n");
   temp->flag = flag;
 
   // Initialize left and right children as NULL
   temp->left = NULL;
   temp->right = NULL;
-  printf("newNode() exited.\n");
   return(temp);
 
 }
 
-struct node *enterSymbol(struct node *node, char symbol[], unsigned char value, bool flag){
-    printf("enterSymbol called.\n");
-    if(node == NULL){
-        printf("Creating root node.\n");
-        return newNode(symbol, value, flag);
-        printf("Root node is created.\n");
-    }
+bool SymbolNotExist(struct node *node, char symbol[]){
+    if(node == NULL){return true;}
+    if(strcmp(node->symbol, symbol) == 0) {return false;}
+    if(strcmp(symbol, node->symbol) < 0 ) {return SymbolNotExist(node->left, symbol);}
 
-    if(strcmp(symbol, node->symbol) < 0){
-        node->left = enterSymbol(node->left, symbol, value, flag);
-        printf("Left node visited.");
-    }else if(strcmp(symbol, node->symbol) > 0){
-        node->right = enterSymbol(node->right, symbol, value, flag);
-        printf("Right node visited.");
+    return SymbolNotExist(node->right, symbol);
+
+}
+
+void searchTree(struct node *node, char symbol[]){
+    if (SymbolNotExist(node, symbol)){
+
+        printf("Symbol %s: Doesn't exist.\n", symbol);
+    }else{
+        printf("Symbol %s:  Found.\n");
+            while(strcmp(node->symbol, symbol) != 0){
+                    node = iter_next(node);
+
+                }
+
+
+        printf("%s \t  %X \t  %s\n", node->symbol, node->value, node->flag ? "true":"false");
+
     }
+}
+
+struct node *enterSymbol(struct node *node, char symbol[], unsigned char value, bool flag){
+
+    if(isalpha(symbol[0]) && SymbolNotExist(node, symbol)){
+
+        if(node == NULL){
+            return newNode(symbol, value, flag);
+        }
+
+        if(strcmp(symbol, node->symbol) < 0){
+            node->left = enterSymbol(node->left, symbol, value, flag);
+            }else if(strcmp(symbol, node->symbol) > 0){
+                node->right = enterSymbol(node->right, symbol, value, flag);
+            }
+        } else {// IsAlpha
+                printf("Cannot Insert %s.\n", symbol);
+                if(isalpha(symbol[0])){
+                    printf("%s already exist.\n", symbol);
+                }else{
+                    printf("%s is not a Alphabetic Character.\n", symbol);
+                }
+            }
 
     return node;
 }
 
 
 // A utility function to do inorder traversal of BST
-void inorder(struct node *root)
+void printTable(struct node *root)
 {
 	if (root != NULL)
 	{
-		inorder(root->left);
-		printf("%s - %X - %s\n", root->symbol, root->value, root->flag ? "true":"false");
-		inorder(root->right);
+		printTable(root->left);
+		printf("%s \t  %X \t  %s\n", root->symbol, root->value, root->flag ? "true":"false");
+		printTable(root->right);
 	}
 }
+
 
 
