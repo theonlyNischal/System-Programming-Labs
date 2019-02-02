@@ -78,7 +78,7 @@ void searchTree(struct node *node, char symbol[]){
 
 struct node *enterSymbol(struct node *node, char symbol[], unsigned char value, bool flag){
 
-    if(isalpha(symbol[0]) && SymbolNotExist(node, symbol) && strlen(symbol) <= 6){
+    if(isalpha(symbol[0]) && SymbolNotExist(node, symbol) && strlen(symbol) <= SYMBOL_SIZE_LIMIT){
 
         if(node == NULL){
             return newNode(symbol, value, flag);
@@ -93,7 +93,7 @@ struct node *enterSymbol(struct node *node, char symbol[], unsigned char value, 
                 printf("Cannot Insert %s.\n", symbol);
                 if(isalpha(symbol[0]) == 0){
                     printf("%s is not a Alphabetic Character.\n\n", symbol);
-                }else if (strlen(symbol) > 6){
+                }else if (strlen(symbol) > SYMBOL_SIZE_LIMIT){
                     printf("%s exceeds the size limit of 6.\n\n");
                 }else if (!SymbolNotExist(node, symbol)){
                     printf("%s already exists.\n\n");
