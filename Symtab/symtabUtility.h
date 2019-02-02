@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
 struct node{
     char symbol[7];
     unsigned char value;
@@ -8,16 +10,32 @@ struct node{
     struct node *left;
     struct node *right;
 
-    // for iteration
-    struct node *parent;
-    int visited;
+
 };
 
-struct node *iter_next(struct node *node){
-    if (node == NULL){ return NULL;}
-    iter_next(node->left);
-    iter_next(node->right);
+
+
+struct node *iter_next(struct node *node, char symbol[]){
+    if(node == NULL){
+        return NULL;
+    }else if(strcmp(node->symbol, symbol) == 0){
+        return node;
+    }else{
+        struct node *left = iter_next(node->left, symbol);
+        return left?left:iter_next(node->right, symbol);
+    }
+
+    /*
+    if (node == NULL)
+    return NULL;
+else if (node->number == key)
+    return node;
+else {
+    data *left = search(node->left, key);
+    return left? left: search(node->right, key);
+}*/
 }
+
 
 /*struct node *iter_next(struct node* node){
     struct node* rightResult = NULL;
@@ -79,18 +97,19 @@ bool SymbolNotExist(struct node *node, char symbol[]){
 }
 
 void searchTree(struct node *node, char symbol[]){
+    struct node *temp = node;
+
     if (SymbolNotExist(node, symbol)){
 
         printf("Symbol %s: Doesn't exist.\n", symbol);
     }else{
         printf("Symbol %s:  Found.\n");
-            while(strcmp(node->symbol, symbol) != 0){
-                    node = iter_next(node);
+            //while(strcmp(node->symbol, symbol) != 0){
+              //  node = iter_next(node, symbol);
+            //}
+            node = iter_next(node, symbol);
+            printf("%s \t  %X \t  %s\n", node->symbol, node->value, node->flag ? "true":"false");
 
-                }
-
-
-        printf("%s \t  %X \t  %s\n", node->symbol, node->value, node->flag ? "true":"false");
 
     }
 }
