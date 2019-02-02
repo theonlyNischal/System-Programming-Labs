@@ -15,14 +15,14 @@ struct node{
 
 
 
-struct node *iter_next(struct node *node, char symbol[]){
+struct node *search_node(struct node *node, char symbol[]){
     if(node == NULL){
         return NULL;
     }else if(strcmp(node->symbol, symbol) == 0){
         return node;
     }else{
-        struct node *left = iter_next(node->left, symbol);
-        return left?left:iter_next(node->right, symbol);
+        struct node *left = search_node(node->left, symbol);
+        return left?left:search_node(node->right, symbol);
     }
 
 
@@ -68,7 +68,8 @@ void searchTree(struct node *node, char symbol[]){
         printf("Symbol %s: Doesn't exist.\n\n", symbol);
     }else{
         printf("Symbol %s:  Found.\n");
-            node = iter_next(node, symbol);
+            node = search_node(node, symbol);
+            printf("Symbol\t Value\t Flag\n");
             printf("%s \t  %X \t  %s\n\n", node->symbol, node->value, node->flag ? "true":"false");
 
 
